@@ -1,0 +1,44 @@
+import picamera
+from time import sleep
+import os
+import tty
+import sys
+import termios
+import RPi.GPIO as GPIO
+GPIO.setmode(GPIO.BCM)
+GPIO.setwarnings(False)
+
+
+count =1
+
+camera = picamera.PiCamera()
+camera.resolution =(800,600)
+camera.sharpness = 50
+camera.contrast = 30
+camera.brightness =50
+camera.saturation = 20
+camera.ISO = 0
+camera.video_stabilization = True
+camera.exposure_compensation = 8
+camera.exposure_mode = 'auto'
+camera.meter_mode = 'average'
+camera.awb_mode = 'auto'
+camera.image_effect = 'none'
+camera.color_effects = None
+camera.rotation = 0
+
+GPIO.setup(18, GPIO.OUT)
+GPIO.setup(12, GPIO.OUT)
+GPIO.output(12,GPIO.HIGH) 
+
+while (True):
+    name = 'image' +str(count) +'.jpg'
+    count+=1
+    GPIO.output(18,GPIO.HIGH)   
+    camera.start_preview()
+    sleep(2)
+    camera.capture(name,resize=(640,480))
+    camera.stop_preview()
+    GPIO.output(18,GPIO.LOW)
+    sleep(2)
+    

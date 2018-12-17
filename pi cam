@@ -28,8 +28,6 @@ camera.color_effects = None
 camera.rotation = 0
 
 GPIO.setup(18, GPIO.OUT)
-GPIO.setup(12, GPIO.OUT)
-GPIO.output(12,GPIO.HIGH) 
 
 while (True):
     name = 'image' +str(count) +'.jpg'
@@ -38,7 +36,8 @@ while (True):
     camera.start_preview()
     sleep(2)
     camera.capture(name,resize=(640,480))
-    camera.stop_preview()
     GPIO.output(18,GPIO.LOW)
+    camera.stop_preview()
+    
     sleep(2)
     
